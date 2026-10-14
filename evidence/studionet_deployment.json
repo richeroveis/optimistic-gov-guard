@@ -1,0 +1,126 @@
+{
+  "network": {
+    "name": "studionet",
+    "chain_id": 61999,
+    "rpc_urls": [
+      "default"
+    ]
+  },
+  "rpc_url": "https://studio.genlayer.com/api",
+  "deployer": "0x154a452b0755EE812014C1405B15D905BA06f9c7",
+  "contract_address": "0xA84fe8580c27C97c51650977af4A28697e9708d8",
+  "deploy_tx": "0x9106d575ff7f12808c13dc95e2594e3e83426488642ebc4b8e4f91037ee03b20",
+  "explorer": "https://explorer-studio.genlayer.com/address/0xA84fe8580c27C97c51650977af4A28697e9708d8",
+  "runner": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6",
+  "integrity": {
+    "local_sha256": "4e6a441e59108cda0e5956154abfe44270d2c5b467629bf221e5c202bb1b4e9a",
+    "onchain_sha256": "4e6a441e59108cda0e5956154abfe44270d2c5b467629bf221e5c202bb1b4e9a",
+    "byte_identical": true,
+    "local_size_bytes": 24706,
+    "onchain_size_bytes": 24706,
+    "rpc_method": "gen_getContractCode"
+  },
+  "evidence": {
+    "article_id_return": 1,
+    "article_after": {
+      "active": true,
+      "article_id": 1,
+      "mandate_text": "No single proposal may spend more than 30% of the treasury.",
+      "max_treasury_spend_bps": 3000,
+      "title": "Treasury Guardrail"
+    },
+    "pending_proposal_id": 1,
+    "over_cap_proposal_id": 2,
+    "audit_verdict": "VETOED",
+    "audited_proposal": {
+      "audited": true,
+      "proposal_id": 2,
+      "proposer": "0x154a452b0755EE812014C1405B15D905BA06f9c7",
+      "rationale": "Deterministic hard-cap veto: requested 5000 bps exceeds the ceiling of active article 1 (Treasury Guardrail). No specification fetch required.",
+      "requested_spend_bps": 5000,
+      "risk_score": 100,
+      "spec_url": "https://www.githubstatus.com/",
+      "title": "Overspend",
+      "verdict": "VETOED",
+      "violated_article_id": 1
+    },
+    "summary_after_audit": {
+      "active_articles": 1,
+      "approved_count": 0,
+      "conditional_count": 0,
+      "pending_count": 1,
+      "total_articles": 1,
+      "total_proposals": 2,
+      "vetoed_count": 1
+    },
+    "proposer_history": [
+      {
+        "audited": false,
+        "proposal_id": 1,
+        "requested_spend_bps": 2000,
+        "risk_score": 0,
+        "title": "Marketing budget",
+        "verdict": "PENDING",
+        "violated_article_id": 0
+      },
+      {
+        "audited": true,
+        "proposal_id": 2,
+        "requested_spend_bps": 5000,
+        "risk_score": 100,
+        "title": "Overspend",
+        "verdict": "VETOED",
+        "violated_article_id": 1
+      }
+    ],
+    "transactions": [
+      {
+        "step": "add_constitutional_article",
+        "tx": "0x6d41cad0f7fef8982afa54e01885df8c16749a522039cbe898ccbd4a34cf5340",
+        "consensus": "MAJORITY_AGREE",
+        "exec_status": "return",
+        "return_data": 1
+      },
+      {
+        "step": "submit_proposal_within_cap",
+        "tx": "0x50abca68cd67112c44fe8ccb1963cc574ef468956a74879e99afa8799c49dd53",
+        "consensus": "MAJORITY_AGREE",
+        "exec_status": "return",
+        "return_data": 1
+      },
+      {
+        "step": "submit_proposal_over_cap",
+        "tx": "0xe281aeaf2cf752e552876fb29ea8b2de4c26232a41f633d6b0c444baa5d28cce",
+        "consensus": "MAJORITY_AGREE",
+        "exec_status": "return",
+        "return_data": 2
+      },
+      {
+        "step": "audit_proposal",
+        "tx": "0xbc4f2ff9706e0b421b9225c0efad8e752a3429e134f620b00006aec4d5c5c213",
+        "consensus": "MAJORITY_AGREE",
+        "exec_status": "return",
+        "return_data": "VETOED"
+      },
+      {
+        "step": "submit_proposal_invalid",
+        "tx": "0x493480a73ba73b8c1372f619692486fb0cd78fb1219d22f1606f9f37cf39bd19",
+        "consensus": "MAJORITY_AGREE",
+        "exec_status": "rollback",
+        "revert_reason": "[EXPECTED] spec_url must be http(s)"
+      }
+    ],
+    "invalid_reverted": true,
+    "invalid_revert_reason": "[EXPECTED] spec_url must be http(s)",
+    "summary_after_rollback": {
+      "active_articles": 1,
+      "approved_count": 0,
+      "conditional_count": 0,
+      "pending_count": 1,
+      "total_articles": 1,
+      "total_proposals": 2,
+      "vetoed_count": 1
+    }
+  },
+  "verified_at": "2026-10-14T13:49:07Z"
+}

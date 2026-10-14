@@ -1,0 +1,20 @@
+# Secrets: never commit the real .env, only the .env.example template
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# GenLayer build artifacts (gltest may wipe these)
+artifacts/
+.gltest_cache/
+
+# Local tooling / OS
+.DS_Store
+*.log

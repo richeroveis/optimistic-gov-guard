@@ -1,0 +1,6 @@
+# GenLayer intelligent-contract / test toolchain (project-local pins).
+# A shared environment with these already installed is reused on this machine.
+genlayer-py>=0.16.3,<0.17.0
+genvm-linter>=0.11.0
+genlayer-test>=0.29.0
+pytest>=8.0.0
