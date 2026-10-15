@@ -1,0 +1,4 @@
+# Normalize every tracked text file to LF in the index AND the working tree.
+# The deployed contract source is verified byte-for-byte against the GitHub
+# blob via sha256, so checkout must never rewrite it to CRLF on Windows.
+* text=auto eol=lf

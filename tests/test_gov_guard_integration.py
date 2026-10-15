@@ -76,6 +76,13 @@ def test_deploy_drive_and_verify_studionet():
     assert pending["verdict"] == "PENDING"
     assert pending["audited"] is False
 
+    # The proposer-cancelled proposal is settled CANCELLED on chain, terminal
+    # and immutable, with the exact proposer-cancellation rationale.
+    cancelled = evidence["cancelled_proposal"]
+    assert cancelled["verdict"] == "CANCELLED"
+    assert cancelled["audited"] is True
+    assert cancelled["rationale"] == "Cancelled by proposer before audit"
+
     # The over-cap proposal is deterministically vetoed on chain (Tier-1), which
     # is fully storage-derived, so leader and validators cannot diverge on it.
     assert str(evidence["audit_verdict"]) == "VETOED"
@@ -85,16 +92,19 @@ def test_deploy_drive_and_verify_studionet():
     assert audited["violated_article_id"] == 1
     assert audited["audited"] is True
 
-    # Summary counts reflect exactly the two accepted proposals: one vetoed, one
-    # pending, and no proposal was created by the invalid (rolled back) submit.
+    # Summary counts reflect exactly the three accepted proposals: one vetoed,
+    # one cancelled, one pending, and no proposal was created by the invalid
+    # (rolled back) submit.
     summary = evidence["summary_after_rollback"]
     assert summary["total_articles"] == 1
-    assert summary["total_proposals"] == 2
+    assert summary["total_proposals"] == 3
     assert summary["vetoed_count"] == 1
+    assert summary["cancelled_count"] == 1
     assert summary["pending_count"] == 1
 
     # Adversarial input must revert on chain, exactly as it does in direct mode.
     assert evidence["invalid_reverted"], "invalid submit_proposal should revert on studionet"
 
-    # At least the article add, two submits, the audit and the invalid write ran.
-    assert len(evidence["transactions"]) >= 5
+    # At least the article add, three submits, the cancel, the audit and the
+    # invalid write ran.
+    assert len(evidence["transactions"]) >= 7

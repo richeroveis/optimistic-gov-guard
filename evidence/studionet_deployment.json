@@ -8,16 +8,16 @@
   },
   "rpc_url": "https://studio.genlayer.com/api",
   "deployer": "0x154a452b0755EE812014C1405B15D905BA06f9c7",
-  "contract_address": "0xA84fe8580c27C97c51650977af4A28697e9708d8",
-  "deploy_tx": "0x9106d575ff7f12808c13dc95e2594e3e83426488642ebc4b8e4f91037ee03b20",
-  "explorer": "https://explorer-studio.genlayer.com/address/0xA84fe8580c27C97c51650977af4A28697e9708d8",
+  "contract_address": "0xEDB383B5539dcEbD9278C3227eCF1e8E6fcaF484",
+  "deploy_tx": "0xda010bc9d2cccbad75cc36a4d23044bed001bffc14838b0cb704f358b96dccf2",
+  "explorer": "https://explorer-studio.genlayer.com/address/0xEDB383B5539dcEbD9278C3227eCF1e8E6fcaF484",
   "runner": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6",
   "integrity": {
-    "local_sha256": "4e6a441e59108cda0e5956154abfe44270d2c5b467629bf221e5c202bb1b4e9a",
-    "onchain_sha256": "4e6a441e59108cda0e5956154abfe44270d2c5b467629bf221e5c202bb1b4e9a",
+    "local_sha256": "29c2a88a3f6be513097e1478f5347dacb947a31579f0cc029e456534b6cb133d",
+    "onchain_sha256": "29c2a88a3f6be513097e1478f5347dacb947a31579f0cc029e456534b6cb133d",
     "byte_identical": true,
-    "local_size_bytes": 24706,
-    "onchain_size_bytes": 24706,
+    "local_size_bytes": 31169,
+    "onchain_size_bytes": 31169,
     "rpc_method": "gen_getContractCode"
   },
   "evidence": {
@@ -30,11 +30,24 @@
       "title": "Treasury Guardrail"
     },
     "pending_proposal_id": 1,
-    "over_cap_proposal_id": 2,
+    "cancelled_proposal_id": 2,
+    "cancelled_proposal": {
+      "audited": true,
+      "proposal_id": 2,
+      "proposer": "0x154a452b0755EE812014C1405B15D905BA06f9c7",
+      "rationale": "Cancelled by proposer before audit",
+      "requested_spend_bps": 1000,
+      "risk_score": 0,
+      "spec_url": "https://www.githubstatus.com/",
+      "title": "Withdrawn initiative",
+      "verdict": "CANCELLED",
+      "violated_article_id": 0
+    },
+    "over_cap_proposal_id": 3,
     "audit_verdict": "VETOED",
     "audited_proposal": {
       "audited": true,
-      "proposal_id": 2,
+      "proposal_id": 3,
       "proposer": "0x154a452b0755EE812014C1405B15D905BA06f9c7",
       "rationale": "Deterministic hard-cap veto: requested 5000 bps exceeds the ceiling of active article 1 (Treasury Guardrail). No specification fetch required.",
       "requested_spend_bps": 5000,
@@ -47,10 +60,11 @@
     "summary_after_audit": {
       "active_articles": 1,
       "approved_count": 0,
+      "cancelled_count": 1,
       "conditional_count": 0,
       "pending_count": 1,
       "total_articles": 1,
-      "total_proposals": 2,
+      "total_proposals": 3,
       "vetoed_count": 1
     },
     "proposer_history": [
@@ -66,6 +80,15 @@
       {
         "audited": true,
         "proposal_id": 2,
+        "requested_spend_bps": 1000,
+        "risk_score": 0,
+        "title": "Withdrawn initiative",
+        "verdict": "CANCELLED",
+        "violated_article_id": 0
+      },
+      {
+        "audited": true,
+        "proposal_id": 3,
         "requested_spend_bps": 5000,
         "risk_score": 100,
         "title": "Overspend",
@@ -76,35 +99,48 @@
     "transactions": [
       {
         "step": "add_constitutional_article",
-        "tx": "0x6d41cad0f7fef8982afa54e01885df8c16749a522039cbe898ccbd4a34cf5340",
+        "tx": "0x4d084a3661d95e9631fea2f2dc7faa179f28979000a33fe69126c7f50ae49002",
         "consensus": "MAJORITY_AGREE",
         "exec_status": "return",
         "return_data": 1
       },
       {
         "step": "submit_proposal_within_cap",
-        "tx": "0x50abca68cd67112c44fe8ccb1963cc574ef468956a74879e99afa8799c49dd53",
+        "tx": "0xd103fa5d78560b862809b537d7097545377fc66c4cfefa030a89160375df63dc",
         "consensus": "MAJORITY_AGREE",
         "exec_status": "return",
         "return_data": 1
       },
       {
-        "step": "submit_proposal_over_cap",
-        "tx": "0xe281aeaf2cf752e552876fb29ea8b2de4c26232a41f633d6b0c444baa5d28cce",
+        "step": "submit_proposal_to_cancel",
+        "tx": "0xd62339419ebf03cd93fe0a4850e2134bbb567d1a4bf6db05da3989be650640e0",
         "consensus": "MAJORITY_AGREE",
         "exec_status": "return",
         "return_data": 2
       },
       {
+        "step": "cancel_proposal",
+        "tx": "0x181a88190b56a364eb0a897884826c7726cd894272123f8c9896c8c30a6a16f2",
+        "consensus": "MAJORITY_AGREE",
+        "exec_status": "return"
+      },
+      {
+        "step": "submit_proposal_over_cap",
+        "tx": "0xba7d5264ef6d1e494ab4df35390a31fb3b93944893b6e9fac186da5e3fb49ea1",
+        "consensus": "MAJORITY_AGREE",
+        "exec_status": "return",
+        "return_data": 3
+      },
+      {
         "step": "audit_proposal",
-        "tx": "0xbc4f2ff9706e0b421b9225c0efad8e752a3429e134f620b00006aec4d5c5c213",
+        "tx": "0x628702923891e757d73222bfe928fd5c51d63ce02cf6fd4d3372a1040cc31e4f",
         "consensus": "MAJORITY_AGREE",
         "exec_status": "return",
         "return_data": "VETOED"
       },
       {
         "step": "submit_proposal_invalid",
-        "tx": "0x493480a73ba73b8c1372f619692486fb0cd78fb1219d22f1606f9f37cf39bd19",
+        "tx": "0x6658ea237c3f39dff1a572a3faf9fbbec08714a0199647861bb6e4524d2432c4",
         "consensus": "MAJORITY_AGREE",
         "exec_status": "rollback",
         "revert_reason": "[EXPECTED] spec_url must be http(s)"
@@ -115,12 +151,13 @@
     "summary_after_rollback": {
       "active_articles": 1,
       "approved_count": 0,
+      "cancelled_count": 1,
       "conditional_count": 0,
       "pending_count": 1,
       "total_articles": 1,
-      "total_proposals": 2,
+      "total_proposals": 3,
       "vetoed_count": 1
     }
   },
-  "verified_at": "2026-10-14T13:49:07Z"
+  "verified_at": "2026-10-15T08:48:15Z"
 }

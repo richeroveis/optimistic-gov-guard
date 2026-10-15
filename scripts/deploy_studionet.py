@@ -14,6 +14,7 @@ Flow
    source read back through the chain RPC (gen_getContractCode);
 5. drive the state-changing path with real transactions:
      add_constitutional_article -> submit_proposal (within cap) ->
+     submit_proposal (to cancel) -> cancel_proposal (proposer-only lifecycle) ->
      submit_proposal (over cap) -> audit_proposal (deterministic Tier-1 veto) ->
      get_proposer_proposals / get_governance_summary reads;
 6. include one expected-rollback check (an invalid submit must revert on chain);
@@ -296,6 +297,35 @@ def drive(client, account, address: str) -> dict:
     txs.append({"step": "submit_proposal_within_cap", "tx": tx_ok,
                 "consensus": result_name(rc_ok), "exec_status": exec_status(rc_ok), "return_data": pending_id})
 
+    # --- write: cancel lifecycle. Submit a second within-cap proposal, then the
+    # proposer cancels it before any audit: PENDING -> CANCELLED, terminal. ---
+    print("\n[write] submit_proposal (to be cancelled, 1000 bps) ...")
+    tx_cand = str(
+        client.write_contract(
+            address, "submit_proposal", account=account,
+            args=["Withdrawn initiative", SPEC_URL, 1000],
+        )
+    )
+    print(f"    tx={tx_cand}")
+    rc_cand = wait_for_final(client, tx_cand, DEFAULT_TIMEOUT, "submit_proposal_to_cancel")
+    assert_execution_ok(rc_cand, "submit_proposal_to_cancel")
+    cancel_id = _as_int(exec_payload(rc_cand))
+    txs.append({"step": "submit_proposal_to_cancel", "tx": tx_cand,
+                "consensus": result_name(rc_cand), "exec_status": exec_status(rc_cand), "return_data": cancel_id})
+
+    print(f"\n[write] cancel_proposal({cancel_id}) by proposer ...")
+    tx_cancel = str(
+        client.write_contract(address, "cancel_proposal", account=account, args=[cancel_id])
+    )
+    print(f"    tx={tx_cancel}")
+    rc_cancel = wait_for_final(client, tx_cancel, DEFAULT_TIMEOUT, "cancel_proposal")
+    assert_execution_ok(rc_cancel, "cancel_proposal")
+    txs.append({"step": "cancel_proposal", "tx": tx_cancel,
+                "consensus": result_name(rc_cancel), "exec_status": exec_status(rc_cancel)})
+
+    cancelled = client.read_contract(address, "get_proposal", args=[cancel_id])
+    print(f"\n[read] get_proposal({cancel_id}) -> {json.dumps(cancelled, default=str)}")
+
     # --- write: submit_proposal over cap (candidate for the deterministic veto) ---
     print("\n[write] submit_proposal (over cap, 5000 bps) ...")
     tx_over = str(
@@ -360,6 +390,8 @@ def drive(client, account, address: str) -> dict:
         "article_id_return": article_id,
         "article_after": article,
         "pending_proposal_id": pending_id,
+        "cancelled_proposal_id": cancel_id,
+        "cancelled_proposal": cancelled,
         "over_cap_proposal_id": over_id,
         "audit_verdict": verdict,
         "audited_proposal": audited,
